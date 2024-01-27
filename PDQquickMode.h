@@ -7,7 +7,7 @@
 #include <ctime>
 
 template <class T>
-class priority_deque{
+class PDQ{
     public:
     std::vector<std::pair<double, ChessBoard>>vec;
     
@@ -18,10 +18,10 @@ class priority_deque{
     int firstLeafIndex; 
    
     public:
-        priority_deque();
-        priority_deque(int);
-        priority_deque(bool);
-        ~priority_deque();
+        PDQ();
+        PDQ(int);
+        PDQ(bool);
+        ~PDQ();
 
         
         std::pair<double, ChessBoard> poll(); 
@@ -47,7 +47,7 @@ class priority_deque{
 
 
 template <class T>
-priority_deque<T>::priority_deque(){
+PDQ<T>::PDQ(){
     this->maxSize = 7;
     this->check = false;
     this->isMaxHeap = false;
@@ -57,7 +57,7 @@ priority_deque<T>::priority_deque(){
 
 
 template <class T>
-priority_deque<T>::priority_deque(int maxSize){
+PDQ<T>::PDQ(int maxSize){
     this->maxSize = maxSize;
     this->check = false;
     this->currLeaf = 0;
@@ -66,7 +66,7 @@ priority_deque<T>::priority_deque(int maxSize){
 
 
 template <class T>
-priority_deque<T>::priority_deque(bool isMaxHeap){
+PDQ<T>::PDQ(bool isMaxHeap){
     this->maxSize = 7;
     this->check = false;
     this->isMaxHeap = isMaxHeap;
@@ -77,12 +77,12 @@ priority_deque<T>::priority_deque(bool isMaxHeap){
 
 
 template <class T>
-priority_deque<T>::~priority_deque(){
+PDQ<T>::~PDQ(){
     this->vec.clear();
 }
 
 template <class T>
-T priority_deque<T>::peek(){
+T PDQ<T>::peek(){
     if(this->vec.size()==0){
         throw std::runtime_error("Priority Queue is empty");
     }
@@ -93,32 +93,32 @@ T priority_deque<T>::peek(){
 
 
 template <class T>
-void priority_deque<T>::setMaxSize(int maxSize){
+void PDQ<T>::setMaxSize(int maxSize){
     this->check = false; 
     this->maxSize = maxSize;
 }
 
 
 template <class T> //O(1)
-bool priority_deque<T>::empty(){
+bool PDQ<T>::empty(){
     return this->vec.size() == 0;
 }
 
 
 template <class T> //O(1)
-void priority_deque<T>::clear(){
+void PDQ<T>::clear(){
     this->vec.clear();
 }
 
 
 template <class T>
-int priority_deque<T>::size(){
+int PDQ<T>::size(){
     return this->vec.size();
 }
 
 
 template <class T>
-std::pair<double, ChessBoard> priority_deque<T>::poll(){
+std::pair<double, ChessBoard> PDQ<T>::poll(){
     if(this->vec.size() == 0){
         throw std::runtime_error("Priority Queue is empty");
     }
@@ -137,7 +137,7 @@ std::pair<double, ChessBoard> priority_deque<T>::poll(){
 
 
 template <class T>
-void priority_deque<T>::add(std::pair<double, ChessBoard> data){
+void PDQ<T>::add(std::pair<double, ChessBoard> data){
      if(this->maxSize == 0) return;
      if(this->vec.size() < this->maxSize){ 
         this->vec.push_back(data);
@@ -161,7 +161,7 @@ void priority_deque<T>::add(std::pair<double, ChessBoard> data){
 
 
 template <class T>
-void priority_deque<T>::addingAtMaxSize(std::pair<double, ChessBoard> data){
+void PDQ<T>::addingAtMaxSize(std::pair<double, ChessBoard> data){
     this->currLeaf = this->firstLeafIndex + (rand() % (this->vec.size() - this->firstLeafIndex));
     if(this->isMaxHeap){
         if(data.first < this->vec[currLeaf].first){
@@ -181,7 +181,7 @@ void priority_deque<T>::addingAtMaxSize(std::pair<double, ChessBoard> data){
 }
 
 template <class T>
-void priority_deque<T>::bubbleUp(int index){
+void PDQ<T>::bubbleUp(int index){
     while (index > 0) {
         int parent = (index - 1) / 2;
         if (this->vec[index].first < this->vec[parent].first) {
@@ -194,7 +194,7 @@ void priority_deque<T>::bubbleUp(int index){
 }
 
 template <class T>
-void priority_deque<T>::bubbleDown(int index) {
+void PDQ<T>::bubbleDown(int index) {
     int size = this->vec.size();
     while (true) {
         int left = 2 * index + 1;
@@ -220,7 +220,7 @@ void priority_deque<T>::bubbleDown(int index) {
 
 
 template <class T>
-void priority_deque<T>::bubbleUpMaxHeap(int index){
+void PDQ<T>::bubbleUpMaxHeap(int index){
     while (index > 0) {
         int parent = (index - 1) / 2;
         if (this->vec[index].first > this->vec[parent].first) {
@@ -233,7 +233,7 @@ void priority_deque<T>::bubbleUpMaxHeap(int index){
 }
 
 template <class T>
-void priority_deque<T>::bubbleDownMaxHeap(int index) {
+void PDQ<T>::bubbleDownMaxHeap(int index) {
     int size = this->vec.size();
     while (true) {
         int left = 2 * index + 1;
@@ -259,7 +259,7 @@ void priority_deque<T>::bubbleDownMaxHeap(int index) {
 
 
 template<class T>
-int priority_deque<T>::findLeavesIndexes(){
+int PDQ<T>::findLeavesIndexes(){
     int minLeave = 0;
     for(int i = this->vec.size()-1; i >= 0; i--){
         int left = (2*i)+1;

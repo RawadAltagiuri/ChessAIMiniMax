@@ -14,15 +14,15 @@ class ChessAI{
         int possibleBoards = 0;
         unordered_map<string, double> BoardScoresWhite;
         unordered_map<string, double> BoardScoresBlack;
-        ChessAI(){this->boardQueue = priority_deque<std::pair<double,ChessBoard>>();};
-        void ChildFactoryBlack(ChessBoard&, priority_deque<std::pair<double,ChessBoard>>&);
-        void ChildFactoryWhite(ChessBoard&, priority_deque<std::pair<double,ChessBoard>>&);
+        ChessAI(){this->boardQueue = PDQ<std::pair<double,ChessBoard>>();};
+        void ChildFactoryBlack(ChessBoard&, PDQ<std::pair<double,ChessBoard>>&);
+        void ChildFactoryWhite(ChessBoard&, PDQ<std::pair<double,ChessBoard>>&);
         double EvaluateBoard(ChessBoard&);
-        priority_deque<std::pair<double,ChessBoard>> boardQueue;
+        PDQ<std::pair<double,ChessBoard>> boardQueue;
         int getDepth(){return this->depth;};
         void setDepth(int depth){this->depth = depth;};
         double minxmax(std::pair<double,ChessBoard>, int, double, double, bool);
-        void LoopThrough(priority_deque<std::pair<double,ChessBoard>>&, double, double);
+        void LoopThrough(PDQ<std::pair<double,ChessBoard>>&, double, double);
         bool HasTheKingBeenEaten(ChessBoard&);
         bool HasTheWhiteKingBeenEaten(ChessBoard&);
         bool HasTheBlackKingBeenEaten(ChessBoard&); 
@@ -31,8 +31,8 @@ class ChessAI{
         int depth = 3;
 };
 
-void ChessAI::ChildFactoryBlack(ChessBoard& board, priority_deque<std::pair<double,ChessBoard>>& boardQueue){
-    boardQueue = priority_deque<std::pair<double,ChessBoard>>();
+void ChessAI::ChildFactoryBlack(ChessBoard& board, PDQ<std::pair<double,ChessBoard>>& boardQueue){
+    boardQueue = PDQ<std::pair<double,ChessBoard>>();
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
             ChessPiece* piece = board.board[i][j];
@@ -57,8 +57,8 @@ void ChessAI::ChildFactoryBlack(ChessBoard& board, priority_deque<std::pair<doub
     int j = 0;
 }
 
-void ChessAI::ChildFactoryWhite(ChessBoard& board, priority_deque<std::pair<double,ChessBoard>>& boardQueue){
-    boardQueue = priority_deque<std::pair<double,ChessBoard>>(true);
+void ChessAI::ChildFactoryWhite(ChessBoard& board, PDQ<std::pair<double,ChessBoard>>& boardQueue){
+    boardQueue = PDQ<std::pair<double,ChessBoard>>(true);
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
             ChessPiece* piece = board.board[i][j];
@@ -129,10 +129,10 @@ double ChessAI::EvaluateBoard(ChessBoard& board){
 
 
 
-void ChessAI::LoopThrough(priority_deque<std::pair<double,ChessBoard>>& boardQueue, double alpha, double beta) {
+void ChessAI::LoopThrough(PDQ<std::pair<double,ChessBoard>>& boardQueue, double alpha, double beta) {
     double minEval = std::numeric_limits<double>::infinity();
-    priority_deque<std::pair<double,ChessBoard>> tempboardQueue = boardQueue;
-    boardQueue = priority_deque<std::pair<double,ChessBoard>>();
+    PDQ<std::pair<double,ChessBoard>> tempboardQueue = boardQueue;
+    boardQueue = PDQ<std::pair<double,ChessBoard>>();
     int queueSize = tempboardQueue.size();
 
     for (int i = 0; i < queueSize; i++) {
@@ -159,7 +159,7 @@ double ChessAI::minxmax(std::pair<double,ChessBoard> parent, int depth, double a
         double minEval = std::numeric_limits<double>::infinity();
         ChessBoard board;
         parent.second.DeepCopy(parent.second, board);
-        priority_deque<std::pair<double,ChessBoard>> boardQueue(false);
+        PDQ<std::pair<double,ChessBoard>> boardQueue(false);
         this->ChildFactoryBlack(board, boardQueue);
         int queueSize = boardQueue.size();
         for (int i = 0; i < queueSize; i++) {
@@ -177,7 +177,7 @@ double ChessAI::minxmax(std::pair<double,ChessBoard> parent, int depth, double a
         double maxEval = numeric_limits<double>::infinity() * -1;
         ChessBoard board;
         parent.second.DeepCopy(parent.second, board);
-        priority_deque<std::pair<double,ChessBoard>> boardQueue(true);
+        PDQ<std::pair<double,ChessBoard>> boardQueue(true);
         this->ChildFactoryWhite(board, boardQueue);
         int queueSize = boardQueue.size();
         vector<double> scores;
