@@ -169,20 +169,20 @@ void ChessBoard::setBoard()
     this->board[7][5]->pos[1] = 5;
     this->board[7][5]->InputOffsets(this->board[7][5]);
 
-    this->board[0][3] = new King(true);
+    this->board[0][3] = new Queen(true);
     this->board[0][3]->pos[0] = 0;
     this->board[0][3]->pos[1] = 3;
     this->board[0][3]->InputOffsets(this->board[0][3]);
-    this->board[7][3] = new King(false);
+    this->board[7][3] = new Queen(false);
     this->board[7][3]->pos[0] = 7;
     this->board[7][3]->pos[1] = 3;
     this->board[7][3]->InputOffsets(this->board[7][3]);
 
-    this->board[0][4] = new Queen(true);
+    this->board[0][4] = new King(true);
     this->board[0][4]->pos[0] = 0;
     this->board[0][4]->pos[1] = 4;
     this->board[0][4]->InputOffsets(this->board[0][4]);
-    this->board[7][4] = new Queen(false);
+    this->board[7][4] = new King(false);
     this->board[7][4]->pos[0] = 7;
     this->board[7][4]->pos[1] = 4;
     this->board[7][4]->InputOffsets(this->board[7][4]);
